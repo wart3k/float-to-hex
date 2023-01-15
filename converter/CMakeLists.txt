@@ -1,6 +1,7 @@
 set(DATA_RW_LIBRARY_SOURCES
         "read_file.cpp"
-        "write_file.cpp")
+        "write_file.cpp"
+        "converter.cpp")
 
 set(DATA_RW_LIBRARY_INCLUDES
         "./")
