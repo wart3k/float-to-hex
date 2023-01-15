@@ -9,6 +9,7 @@ int main() {
     std::cout << "Starting project: " << project_name << " Version: " << project_version << "\n";
 
     ConverterReader ConverterReader;
+    ConverterWriter ConverterWriter;
 
     auto readerTest = ConverterReader::getMaxLineNr("../../converter_files/float_hex.txt");
 
@@ -20,7 +21,10 @@ int main() {
         }
     }
 
-    ConverterWriter ConverterWriter;
+
+
+    ConverterWriter::writeValueAtEof("../../converter_files/converted.txt", "test\n");
+
 
     return EXIT_SUCCESS;
 }

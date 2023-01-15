@@ -2,11 +2,16 @@
 
 #include <string>
 
+enum class ConverterWriteStatus {
+    OK = 0,
+    FILE_READING_ERROR
+};
+
 class ConverterWriter {
 public :
     ConverterWriter();
     ~ConverterWriter();
 
-    void writeDate(const std::string &path);
+    static ConverterWriteStatus writeValueAtEof(const std::string &path, const std::string &textToWrite);
 
 };
