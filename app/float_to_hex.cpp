@@ -3,6 +3,7 @@
 
 #include "config.h"
 #include "read_file.h"
+#include "write_file.h"
 
 int main() {
     std::cout << "Starting project: " << project_name << " Version: " << project_version << "\n";
@@ -18,6 +19,8 @@ int main() {
                 std::cout << "Value is: " << readerTest2.second << "\n";
         }
     }
+
+    ConverterWriter ConverterWriter;
 
     return EXIT_SUCCESS;
 }

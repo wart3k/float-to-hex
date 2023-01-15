@@ -1,11 +1,12 @@
-set(READER_LIBRARY_SOURCES
-        "read_file.cpp")
+set(DATA_RW_LIBRARY_SOURCES
+        "read_file.cpp"
+        "write_file.cpp")
 
-set(READER_LIBRARY_INCLUDES
+set(DATA_RW_LIBRARY_INCLUDES
         "./")
 
-add_library(${READER_LIBRARY_NAME} STATIC
-        ${READER_LIBRARY_SOURCES})
+add_library(${DATA_RW_LIBRARY_NAME} STATIC
+        ${DATA_RW_LIBRARY_SOURCES})
 
-target_include_directories(${READER_LIBRARY_NAME} PUBLIC
-        ${READER_LIBRARY_INCLUDES})
+target_include_directories(${DATA_RW_LIBRARY_NAME} PUBLIC
+        ${DATA_RW_LIBRARY_INCLUDES})

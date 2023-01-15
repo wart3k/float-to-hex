@@ -12,4 +12,4 @@ target_include_directories(${EXECUTABLE_NAME} PUBLIC
         "${CMAKE_BINARY_DIR}/configured_files"
         )
 
-target_link_libraries(${EXECUTABLE_NAME} PUBLIC ${READER_LIBRARY_NAME})
+target_link_libraries(${EXECUTABLE_NAME} PUBLIC ${DATA_RW_LIBRARY_NAME})

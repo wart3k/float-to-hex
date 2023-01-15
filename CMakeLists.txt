@@ -14,7 +14,7 @@ set(CMAKE_C_STANDARD_REQUIRED   ON)
 set(CMAKE_C_EXTENSIONS          OFF)
 
 set(EXECUTABLE_NAME float_to_hex)
-set(READER_LIBRARY_NAME reader_libraries)
+set(DATA_RW_LIBRARY_NAME reader_libraries)
 
 add_subdirectory(configured)
 add_subdirectory(app)
