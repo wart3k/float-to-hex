@@ -8,5 +8,7 @@ int main() {
 
     ConverterReader ConverterReader;
 
+    ConverterReader::readValue("../../converter_files/float_dec.txt");
+
     return EXIT_SUCCESS;
 }
