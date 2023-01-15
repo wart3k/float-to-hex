@@ -6,7 +6,6 @@
 
 using floatConv = union {
     std::uint32_t i;
-//    std::uint8_t b[4];
     float f;
 };
 
@@ -39,4 +38,8 @@ std::pair<ConverterStatus, std::string> Converter::convertFloatToHex(const std::
 
 
     return retVal;
+}
+
+std::pair<ConverterStatus, std::string> Converter::convertHexToFloat(const std::string &value) {
+    return std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "NaN"};
 }
