@@ -13,4 +13,4 @@ target_include_directories(${EXECUTABLE_NAME} PUBLIC
         )
 
 target_link_libraries(${EXECUTABLE_NAME} PUBLIC ${CONVERTER_LIBRARY_NAME})
-target_link_libraries(${EXECUTABLE_NAME} PUBLIC ${DATA_RW_LIBRARY_NAME})
+

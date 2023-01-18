@@ -22,19 +22,20 @@ std::pair<ConverterStatus, std::string> Converter::convertFloatToHex(const std::
         auto stringStr = std::stringstream();
 
         convertVal.f = std::stof(value);
-        stringStr << "0x" << std::hex << convertVal.i;
 
-        std::cout << "float value is: " << convertVal.f << " hex val is: " << stringStr.str() << "\n";
+        if(convertVal.i == 0) {
+            stringStr << "0x00000000";
+        } else {
+            stringStr << "0x" << std::hex << convertVal.i;
+        }
 
         retVal.first = ConverterStatus::OK;
         retVal.second = stringStr.str();
 
     } catch (std::invalid_argument const &e) {
         retVal.first = ConverterStatus::INVALID_ARGUMENT;
-        std::cout << "FLOAT_TO_HEX ERROR: invalid argument, error:  " << e.what() << "\n";
     } catch (std::out_of_range const &e) {
         retVal.first = ConverterStatus::OUT_OF_RANGE;
-        std::cout << "FLOAT_TO_HEX ERROR: out of range, error:  " << e.what() << "\n";
     }
 
 
