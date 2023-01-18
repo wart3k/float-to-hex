@@ -2,7 +2,8 @@
 
 #include <stdexcept>
 #include <iostream>
-#include <sstream>
+#include <cstdlib>
+#include <iomanip>
 
 using floatConv = union {
     std::uint32_t i;
@@ -41,5 +42,31 @@ std::pair<ConverterStatus, std::string> Converter::convertFloatToHex(const std::
 }
 
 std::pair<ConverterStatus, std::string> Converter::convertHexToFloat(const std::string &value) {
-    return std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "NaN"};
+    auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "NaN"};
+
+    auto convertVal = floatConv {.i = UINT32_MAX};
+    auto stringStr = std::stringstream();
+    char *p_end{};
+
+    convertVal.i = strtoul(value.c_str(), &p_end, 16);
+
+    if(value.c_str() == p_end) {
+        std::cout << "FLOAT_TO_HEX ERROR: invalid argument, error \n";
+        retVal.first = ConverterStatus::INVALID_ARGUMENT;
+        return retVal;
+    }
+
+    const bool range_error = errno == ERANGE;
+    const std::string extracted(value.c_str(), p_end - value.c_str());
+
+    if (range_error || value.size() > 10) {
+        std::cout << "FLOAT_TO_HEX ERROR: out of range, error \n";
+        retVal.first = ConverterStatus::OUT_OF_RANGE;
+        return retVal;
+    }
+
+    std::cout << "Hex value is: " << std::quoted(extracted)
+              << ", float value is: " << convertVal.f << "\n";
+
+    return retVal;
 }

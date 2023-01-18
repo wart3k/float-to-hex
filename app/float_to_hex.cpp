@@ -27,7 +27,8 @@ int main() {
 //
 //    ConverterWriter::writeValueAtEof("../../converter_files/converted.txt", "test\n");
 
-    Converter::convertFloatToHex("-0.5");
+    Converter::convertFloatToHex("-1.5");
+    Converter::convertHexToFloat("0xbfc00000");
 
     return EXIT_SUCCESS;
 }
