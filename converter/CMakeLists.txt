@@ -1,13 +1,13 @@
-set(DATA_RW_LIBRARY_SOURCES
-        "read_file.cpp"
-        "write_file.cpp"
-        "converter.cpp")
+set(CONVERTER_LIBRARY_SOURCES
+        "ConverterService.cpp")
 
-set(DATA_RW_LIBRARY_INCLUDES
+set(CONVERTER_LIBRARY_INCLUDES
         "./")
 
-add_library(${DATA_RW_LIBRARY_NAME} STATIC
-        ${DATA_RW_LIBRARY_SOURCES})
+add_library(${CONVERTER_LIBRARY_NAME} STATIC
+        ${CONVERTER_LIBRARY_SOURCES})
 
-target_include_directories(${DATA_RW_LIBRARY_NAME} PUBLIC
-        ${DATA_RW_LIBRARY_INCLUDES})
+add_subdirectory(base_classes)
+
+target_include_directories(${CONVERTER_LIBRARY_NAME} PUBLIC
+        ${CONVERTER_LIBRARY_INCLUDES})

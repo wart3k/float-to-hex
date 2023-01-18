@@ -5,7 +5,7 @@ project(
         VERSION 0.1.0
         LANGUAGES C CXX)
 
-set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD          23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS        OFF)
 
@@ -15,7 +15,8 @@ set(CMAKE_C_EXTENSIONS          OFF)
 
 set(EXECUTABLE_NAME float_to_hex)
 set(DATA_RW_LIBRARY_NAME reader_libraries)
+set(CONVERTER_LIBRARY_NAME converter_libraries)
 
 add_subdirectory(configured)
-add_subdirectory(app)
 add_subdirectory(converter)
+add_subdirectory(app)
