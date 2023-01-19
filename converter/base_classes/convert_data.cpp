@@ -66,8 +66,7 @@ std::pair<ConverterStatus, std::string> Converter::convertHexToFloat(const std::
         return retVal;
     }
 
-    std::cout << "Hex value is: " << std::quoted(extracted)
-              << ", float value is: " << convertVal.f << "\n";
+    retVal.second = std::to_string(convertVal.f);
 
     return retVal;
 }

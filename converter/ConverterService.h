@@ -18,8 +18,13 @@ public:
     void startConverting();
 
 private:
-    void convertFloatDecimalToHex();
-    void convertFloatHexToDecimal();
+    enum class ConvertType {
+        HEX_TO_FLOAT,
+        FLOAT_TO_HEX
+    };
+
+    void writeHeaderToConvertedFile(ConvertType type);
+    void readConvertWriteValues(ConvertType type);
 
     const std::string m_float_values_path;
     const std::string m_hex_values_path;

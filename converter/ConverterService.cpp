@@ -11,17 +11,54 @@ void ConverterService::startConverting() {
     std::cout << "Store converted values in: " << m_converted_values_path << "\n";
     std::cout << "\n";
 
-    ConverterService::convertFloatDecimalToHex();
-    ConverterService::convertFloatHexToDecimal();
+    ConverterService::writeHeaderToConvertedFile(ConvertType::FLOAT_TO_HEX);
+    ConverterService::readConvertWriteValues(ConvertType::FLOAT_TO_HEX);
+
+    ConverterService::writeHeaderToConvertedFile(ConvertType::HEX_TO_FLOAT);
+    ConverterService::readConvertWriteValues(ConvertType::HEX_TO_FLOAT);
 }
 
-void ConverterService::convertFloatDecimalToHex() {
-    std::cout << "Converting float to hex values status: \n";
+void ConverterService::writeHeaderToConvertedFile(ConvertType type) {
+    auto stringToWrite = std::string{};
 
-    auto lineNrReadStatus = getMaxLineNr(m_float_values_path);
+    switch (type) {
+        case ConvertType::FLOAT_TO_HEX:
+            stringToWrite = "\nConverted float values into hex values\n";
+            break;
+        case ConvertType::HEX_TO_FLOAT:
+            stringToWrite = "\nConverted hex values into float values\n";
+            break;
+        default:
+            stringToWrite = "\nConvertion type doesn't exists\n";
+            break;
+    }
+
+    stringToWrite += "----------------------------------------------------\n";
+
+    auto writeStatus = writeValueAtEof(m_converted_values_path, stringToWrite);
+
+    if (writeStatus != ConverterWriteStatus::OK) {
+        std::cout << "Writing error\n";
+    }
+}
+
+
+void ConverterService::readConvertWriteValues(ConvertType type) {
+
+    auto pathToValues = std::string{};
+
+    if(type == ConvertType::FLOAT_TO_HEX) {
+        std::cout << "Converting float to hex values status: \n";
+        pathToValues = m_float_values_path;
+    } else {
+        std::cout << "Converting hex to float values status: \n";
+        pathToValues = m_hex_values_path;
+    }
+
+    auto lineNrReadStatus = getMaxLineNr(pathToValues);
 
     if(lineNrReadStatus.first != ConverterReadStatus::OK) {
-        std::cout << "\t -Error while reading from: " << m_float_values_path << "\n";
+        std::cout << "\t -Error while reading from: " << pathToValues << "\n";
         return;
     }
 
@@ -30,7 +67,7 @@ void ConverterService::convertFloatDecimalToHex() {
     auto lineReadValue = std::pair<ConverterReadStatus, std::string>{};
     auto converterValue = std::pair<ConverterStatus, std::string>{};
     for (size_t i = 0; i < lineNrReadStatus.second; ++i) {
-        lineReadValue = readLine(m_float_values_path, i);
+        lineReadValue = readLine(pathToValues, i);
 
         auto readStatus = std::string{};
         switch(lineReadValue.first) {
@@ -52,7 +89,11 @@ void ConverterService::convertFloatDecimalToHex() {
         }
 
         if(static_cast<ConverterStatus>(lineReadValue.first) == ConverterStatus::OK) {
-            converterValue = convertFloatToHex(lineReadValue.second);
+            if(type == ConvertType::FLOAT_TO_HEX) {
+                converterValue = convertFloatToHex(lineReadValue.second);
+            } else {
+                converterValue = convertHexToFloat(lineReadValue.second);
+            }
 
             switch (converterValue.first) {
                 case ConverterStatus::OK:
@@ -95,16 +136,13 @@ void ConverterService::convertFloatDecimalToHex() {
 
     }
 
-    std::cout << "Converting float to hex done. \n\n";
+    if(type == ConvertType::FLOAT_TO_HEX) {
+        std::cout << "Converting float to hex done. \n\n";
+    } else {
+        std::cout << "Converting hex to float done. \n\n";
+    }
 
 }
-
-void ConverterService::convertFloatHexToDecimal() {
-    std::cout << "Converting hex to float values status: \n";
-    std::cout << "\t method not implemented\n";
-    std::cout << "Converting hex to float values done. \n";
-}
-
 
 
 
