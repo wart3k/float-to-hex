@@ -31,3 +31,10 @@ text document converter_files/float_hex.txt. Example:
 0x3fc00000<br />
 ...<br />
 
+## Future Features
+
+- improvement of output in converted.txt
+- Unit Tests
+- input correction for different hex representations (0x12345678, 12345678, 0x12 0x34 0x56 0x78, ...)
+- GUI
+

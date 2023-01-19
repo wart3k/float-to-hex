@@ -12,6 +12,7 @@ void ConverterService::startConverting() {
     std::cout << "\n";
 
     ConverterService::convertFloatDecimalToHex();
+    ConverterService::convertFloatHexToDecimal();
 }
 
 void ConverterService::convertFloatDecimalToHex() {
@@ -20,11 +21,11 @@ void ConverterService::convertFloatDecimalToHex() {
     auto lineNrReadStatus = getMaxLineNr(m_float_values_path);
 
     if(lineNrReadStatus.first != ConverterReadStatus::OK) {
-        std::cout << "Error while reading from: " << m_float_values_path << "\n";
+        std::cout << "\t -Error while reading from: " << m_float_values_path << "\n";
         return;
     }
 
-    std::cout << "Number of values to convert: " << lineNrReadStatus.second << "\n";
+    std::cout << "\t -Number of values to convert: " << lineNrReadStatus.second << "\n";
 
     auto lineReadValue = std::pair<ConverterReadStatus, std::string>{};
     auto converterValue = std::pair<ConverterStatus, std::string>{};
@@ -50,13 +51,58 @@ void ConverterService::convertFloatDecimalToHex() {
                 break;
         }
 
-        converterValue = convertFloatToHex(lineReadValue.second);
+        if(static_cast<ConverterStatus>(lineReadValue.first) == ConverterStatus::OK) {
+            converterValue = convertFloatToHex(lineReadValue.second);
 
-        std::cout << "Row nr: " << i << " read value: " << lineReadValue.second << " read status: " << readStatus
-                  << " value is converted to: " << converterValue.second << "\n";
+            switch (converterValue.first) {
+                case ConverterStatus::OK:
+                    readStatus = "OK";
+                    break;
+                case ConverterStatus::INVALID_ARGUMENT:
+                    readStatus = "Invalid Argument";
+                    break;
+                case ConverterStatus::OUT_OF_RANGE:
+                    readStatus = "Out of Range";
+                    break;
+                default:
+                    readStatus = "Unknown error";
+                    break;
+            }
+        }
+        std::cout << "\t -Row nr: " << i << " read value: " << lineReadValue.second << " read status: "
+                  << readStatus << "\n";
+
+        if(converterValue.first == ConverterStatus::OK) {
+            std::cout << "\t\t - The value is converted to: " << converterValue.second << "\n";
+        }
+
+
+        auto writeStatus = writeValueAtEof(m_converted_values_path, converterValue.second + "\n");
+
+        switch(writeStatus) {
+            case ConverterWriteStatus::OK:
+                readStatus = "OK";
+                break;
+            case ConverterWriteStatus::FILE_READING_ERROR:
+                readStatus = "file reading error";
+                break;
+            default:
+                readStatus = "Unknown error";
+                break;
+        }
+
+        std::cout << "\t -Write value in file status: " << readStatus << "\n";
 
     }
 
+    std::cout << "Converting float to hex done. \n\n";
+
+}
+
+void ConverterService::convertFloatHexToDecimal() {
+    std::cout << "Converting hex to float values status: \n";
+    std::cout << "\t method not implemented\n";
+    std::cout << "Converting hex to float values done. \n";
 }
 
 

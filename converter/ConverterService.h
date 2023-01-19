@@ -19,7 +19,7 @@ public:
 
 private:
     void convertFloatDecimalToHex();
-
+    void convertFloatHexToDecimal();
 
     const std::string m_float_values_path;
     const std::string m_hex_values_path;
