@@ -1,5 +1,5 @@
 set(EXECUTABLE_SOURCE
-        "float_to_hex.cpp")
+        "floatToHex.cpp")
 
 #set(EXECUTABLE_INCLUDE
 #        "./")

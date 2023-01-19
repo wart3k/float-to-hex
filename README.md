@@ -9,32 +9,52 @@ the converted.txt file
 ### Converting float decimal values to hex values
 To convert decimal float values to their hex equivalent, the decimal numbers should be written under each other 
 in the text document converter_files/float_dec.txt. Example:
-
--1.5<br />
--1.0<br />
--0.5<br />
-0.0<br />
-0.5<br />
-1.0<br />
-1.5<br />
+```Text
+-1.5
+-1.0
+-0.5
+0.0
+0.5
+1.0
+1.5
 ...
+```
 
 ### Converting float hex values to decimal values
 To convert hex float values to their dec equivalent, the hex numbers should be written under each other in the 
 text document converter_files/float_hex.txt. Example:
-0xbfc00000<br />
-0xbf800000<br />
-0xbf000000<br />
-0x00000000<br />
-0x3f000000<br />
-0x3f800000<br />
-0x3fc00000<br />
-...<br />
+```Text
+0xbfc00000
+0xbf800000
+0xbf000000
+0x00000000
+0x3f000000
+0x3f800000
+0x3fc00000
+...
+```
+
+### Output File
+The output file in converted_files/converted.txt with the example values from above should look like this:
+```Text
+Converted float values into hex values
+----------------------------------------------------
+0xbfc00000
+0xbf800000
+...
+
+Converted hex values into float values
+----------------------------------------------------
+-1.500000
+-1.000000
+...
+```
 
 ## Future Features
 
 - improvement of output in converted.txt
-- Unit Tests
 - input correction for different hex representations (0x12345678, 12345678, 0x12 0x34 0x56 0x78, ...)
+- Release build config for less console output
+- Unit Tests
 - GUI
 

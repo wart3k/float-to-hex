@@ -9,10 +9,10 @@ enum class ConverterStatus {
     OUT_OF_RANGE
 };
 
-class Converter {
+class ConverterData {
 public:
-    Converter();
-    ~Converter();
+    ConverterData();
+    ~ConverterData();
 
     static std::pair<ConverterStatus, std::string> convertFloatToHex(const std::string &value);
     static std::pair<ConverterStatus, std::string> convertHexToFloat(const std::string &value);

@@ -2,11 +2,11 @@
 
 #include <string>
 
-#include "read_file.h"
-#include "write_file.h"
-#include "convert_data.h"
+#include "ConverterReader.h"
+#include "ConverterWriter.h"
+#include "ConvertData.h"
 
-class ConverterService : public ConverterReader, public Converter, public ConverterWriter{
+class ConverterService : public ConverterReader, public ConverterData, public ConverterWriter{
 
 public:
     ConverterService(std::string &floatValPath, std::string &hexValPath,

@@ -1,4 +1,4 @@
-#include "convert_data.h"
+#include "ConvertData.h"
 
 #include <stdexcept>
 #include <iostream>
@@ -10,11 +10,11 @@ using floatConv = union {
     float f;
 };
 
-Converter::Converter() = default;
+ConverterData::ConverterData() = default;
 
-Converter::~Converter() = default;
+ConverterData::~ConverterData() = default;
 
-std::pair<ConverterStatus, std::string> Converter::convertFloatToHex(const std::string& value) {
+std::pair<ConverterStatus, std::string> ConverterData::convertFloatToHex(const std::string& value) {
     auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "NaN"};
 
     try {
@@ -42,7 +42,7 @@ std::pair<ConverterStatus, std::string> Converter::convertFloatToHex(const std::
     return retVal;
 }
 
-std::pair<ConverterStatus, std::string> Converter::convertHexToFloat(const std::string &value) {
+std::pair<ConverterStatus, std::string> ConverterData::convertHexToFloat(const std::string &value) {
     auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "NaN"};
 
     auto convertVal = floatConv {.i = UINT32_MAX};
