@@ -50,11 +50,26 @@ Converted hex values into float values
 ...
 ```
 
+## Known Issues
+- example values that can't be converted with convertHexToFloat
+  - Non-numeric strings like "this"
+  - values with more than one 0x like "0xbf 0x80 0x00 0x00" or "0xbf0x000x000x00""
+  - can´t handle float values like "-1.5"
+  - values without 0x at start like "bf000000000"
+  - wrong return value for OUT_OF_RANGE values (returs value instead of "NaN)
+- example values that can't be converted with convertFloatToHex
+  - strings with , like "-1,5"
+  - strings with . and , like "-1.0.000.0.00,1213"
+  - strings with no value before . or , like ".5" or "-,5"
+  - Non-numeric values like "this"
+  - correct return value if converter_pair.first is OUT_OF_RANGE or INVALID_ARGUMENT
+
+
 ## Future Features
 
 - improvement of output in converted.txt
 - input correction for different hex representations (0x12345678, 12345678, 0x12 0x34 0x56 0x78, ...)
 - Release build config for less console output
-- Unit Tests
+- Unit Tests for all methods
 - GUI
 
