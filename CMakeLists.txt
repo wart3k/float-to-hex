@@ -21,13 +21,13 @@ set(CONVERTER_LIBRARY_NAME converter_libraries)
 
 include(FetchContent)
 
-FETCHCONTENT_DECLARE(
+FetchContent_Declare(
         Catch2
         GIT_REPOSITORY https://github.com/catchorg/Catch2
-        GIT_TAG v2.13.9
+        GIT_TAG v2.13.10
         GIT_SHALLOW TRUE
 )
-FETCHCONTENT_MAKEAVAILABLE(Catch2)
+FetchContent_MakeAvailable(Catch2)
 
 add_subdirectory(configured)
 add_subdirectory(converter)

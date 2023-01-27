@@ -4,6 +4,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <iomanip>
+#include <utility>
 
 using floatConv = union {
     std::uint32_t i;
@@ -14,14 +15,16 @@ ConverterData::ConverterData() = default;
 
 ConverterData::~ConverterData() = default;
 
-std::pair<ConverterStatus, std::string> ConverterData::convertFloatToHex(const std::string& value) {
+std::pair<ConverterStatus, std::string> ConverterData::convertFloatToHex(const std::string &value) {
     auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "NaN"};
+
+    retVal = ConverterData::checkFloatReadString(value);
 
     try {
         auto convertVal = floatConv {.i = UINT32_MAX};
         auto stringStr = std::stringstream();
 
-        convertVal.f = std::stof(value);
+        convertVal.f = std::stof(retVal.second);
 
         if(convertVal.i == 0) {
             stringStr << "0x00000000";
@@ -49,24 +52,65 @@ std::pair<ConverterStatus, std::string> ConverterData::convertHexToFloat(const s
     auto stringStr = std::stringstream();
     char *p_end{};
 
-    convertVal.i = strtoul(value.c_str(), &p_end, 16);
+    retVal = ConverterData::checkHexReadString(value);
 
-    if(value.c_str() == p_end) {
+    convertVal.i = strtoul(retVal.second.c_str(), &p_end, 16);
+
+    if(retVal.second.c_str() == p_end) {
         std::cout << "FLOAT_TO_HEX ERROR: invalid argument, error \n";
         retVal.first = ConverterStatus::INVALID_ARGUMENT;
         return retVal;
     }
 
     const bool range_error = errno == ERANGE;
-    const std::string extracted(value.c_str(), p_end - value.c_str());
+    const std::string extracted(retVal.second.c_str(), p_end - retVal.second.c_str());
 
-    if (range_error || value.size() > 10) {
+    if (range_error || retVal.second.size() > 10) {
         std::cout << "FLOAT_TO_HEX ERROR: out of range, error \n";
         retVal.first = ConverterStatus::OUT_OF_RANGE;
         return retVal;
     }
 
     retVal.second = std::to_string(convertVal.f);
+
+    return retVal;
+}
+
+std::pair<ConverterStatus, std::string> ConverterData::checkHexReadString(std::string readVal) {
+
+    auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "NaN"};
+
+    retVal.first = ConverterStatus::INVALID_ARGUMENT;
+    retVal.second = std::move(readVal);
+
+    retVal = ConverterData::removeWhitespaces(retVal.second);
+
+    return retVal;
+}
+
+std::pair<ConverterStatus, std::string> ConverterData::checkFloatReadString(std::string readVal) {
+    auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "NaN"};
+
+    retVal.second = std::move(readVal);
+
+    retVal = ConverterData::removeWhitespaces(retVal.second);
+
+    return retVal;
+}
+
+std::pair<ConverterStatus, std::string> ConverterData::removeWhitespaces(const std::string& readVal) {
+    auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "NaN"};
+
+    retVal.second = readVal;
+
+    try {
+        retVal.second.erase(std::remove(retVal.second.begin(), retVal.second.end(), ' '),
+                            retVal.second.end());
+
+        retVal.first = ConverterStatus::OK;
+    } catch (std::invalid_argument const &e) {
+        retVal.first = ConverterStatus::INVALID_ARGUMENT;
+    }
 
     return retVal;
 }

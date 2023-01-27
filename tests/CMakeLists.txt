@@ -16,7 +16,7 @@ if(ENABLE_TESTING)
 #    target_include_directories(${TESTS_MAIN} PUBLIC
 #            ${TESTS_INCLUDES})
 
-    target_link_libraries(${TESTS_MAIN} PUBLIC
+    target_link_libraries(${TESTS_MAIN} PRIVATE
             ${DATA_RW_LIBRARY_NAME}
             ${CONVERTER_LIBRARY_NAME}
             Catch2::Catch2)

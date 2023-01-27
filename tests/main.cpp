@@ -39,27 +39,31 @@ TEST_CASE( "Testing convert float to hex example values", "[float-to-hex-example
 TEST_CASE( "Testing convert hex to float with example values", "[hex-to-float-example-val]" ) {
     ConverterData testConverter;
 
-    auto converter_pair = std::pair<ConverterStatus, std::string>{};
+    auto converterPair = std::pair<ConverterStatus, std::string>{};
     /* Test cases with Status = OK and values from example */
-    converter_pair.first = ConverterStatus::OK;
-    converter_pair.second = "-1.500000";
-    REQUIRE(testConverter.convertHexToFloat("0xbfc00000") == converter_pair);
+    converterPair.first = ConverterStatus::OK;
+    converterPair.second = "-1.500000";
+    REQUIRE(testConverter.convertHexToFloat("0xbfc00000") == converterPair);
 
-    converter_pair.second = "-1.000000";
-    REQUIRE(testConverter.convertHexToFloat("0xbf800000") == converter_pair);
+    converterPair.second = "-1.000000";
+    REQUIRE(testConverter.convertHexToFloat("0xbf800000") == converterPair);
 
-    converter_pair.second = "-0.500000";
-    REQUIRE(testConverter.convertHexToFloat("0xbf000000") == converter_pair);
+    converterPair.second = "-0.500000";
+    REQUIRE(testConverter.convertHexToFloat("0xbf000000") == converterPair);
 
-    converter_pair.second = "0.000000";
-    REQUIRE(testConverter.convertHexToFloat("0x00000000") == converter_pair);
+    converterPair.second = "0.000000";
+    REQUIRE(testConverter.convertHexToFloat("0x00000000") == converterPair);
 
-    converter_pair.second = "0.500000";
-    REQUIRE(testConverter.convertHexToFloat("0x3f000000") == converter_pair);
+    converterPair.second = "0.500000";
+    REQUIRE(testConverter.convertHexToFloat("0x3f000000") == converterPair);
 
-    converter_pair.second = "1.000000";
-    REQUIRE(testConverter.convertHexToFloat("0x3f800000") == converter_pair);
+    converterPair.second = "1.000000";
+    REQUIRE(testConverter.convertHexToFloat("0x3f800000") == converterPair);
 
-    converter_pair.second = "1.500000";
-    REQUIRE(testConverter.convertHexToFloat("0x3fc00000") == converter_pair);
+    converterPair.second = "1.500000";
+    REQUIRE(testConverter.convertHexToFloat("0x3fc00000") == converterPair);
+}
+
+TEST_CASE("Testing checkHexReadString", "[checkHexReadString]") {
+    auto readMock = std::pair<ConverterStatus, std::string>{};
 }
