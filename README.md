@@ -8,6 +8,7 @@ Converts float numbers to hex numbers and vice versa.
 * [Output File](#output-file)
 * [Used third party tools](#used-third-party-tools)
 * [Known Issues](#known-issues) 
+* [Fixed Issues From Last Version](#Fixed Issues From Last Version)
 * [Future Features](#future-features)
 
 ## How to use
@@ -65,25 +66,30 @@ The library used the following third party tools
 
 ## Known Issues
 - example values that can't be converted with convertHexToFloat
-  - Non-numeric strings like "this"
-  - values with more than one 0x like "0xbf 0x80 0x00 0x00" or "0xbf0x000x000x00""
-  - can´t handle float values like "-1.5"
-  - values without 0x at start like "bf000000000"
-  - wrong return value for OUT_OF_RANGE values (returns value instead of "NaN")
+  - currently no issues known
 - example values that can't be converted with convertFloatToHex
-  - strings with , like "-1,5"
   - strings with . and , like "-1.0.000.0.00,1213"
   - strings with no value before . or , like ".5" or "-,5"
   - Non-numeric values like "this"
   - correct return value if converter_pair.first is OUT_OF_RANGE or INVALID_ARGUMENT
 
+## Fixed Issues From Last Version
+- convertHexToFloat
+  - Non-numeric strings like "this" are Not a Number(NaN) Values
+  - Values with more than a 0x are filtered. This turns values like "0xbf 0x80 0x00 0x00" or "0xbf0x000x000x00" 
+into 0xbf800000
+  - float values like "-1.5" are NaN
+  - Values without a 0x at the beginning such as "bf000000000" are supplemented with a 0x at the beginning 
+  - returns Nan for OUT_OF_RANGE
+- convertFloatToHex
+  - strings with , like "-1,5" are transformed to "-1.5"
 
 ## Future Features
 
 - input correction for different hex representations (0x12345678, 12345678, 0x12 0x34 0x56 0x78, ...)
 - improvement of output in converted.txt
 - doxygen doc
-- Release build config for less console output
-- Unit Tests for all methods
+- Release build config
+- Unit Tests
 - GUI
 
