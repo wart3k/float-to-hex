@@ -114,6 +114,8 @@ std::pair<ConverterStatus, std::string> ConverterData::checkFloatReadString(std:
 
     retVal = ConverterData::removeWhitespaces(retVal.second);
 
+    retVal = ConverterData::changeCommasToDots(retVal.second);
+
     return retVal;
 }
 
@@ -183,7 +185,6 @@ std::pair<ConverterStatus, std::string> ConverterData::checkHexValidValues(const
 
 std::pair<ConverterStatus, std::string> ConverterData::removeWhitespaces(const std::string &readVal) {
     auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "NaN"};
-
     retVal.second = readVal;
 
     try {
@@ -193,6 +194,18 @@ std::pair<ConverterStatus, std::string> ConverterData::removeWhitespaces(const s
         retVal.first = ConverterStatus::OK;
     } catch (std::invalid_argument const &e) {
         retVal.first = ConverterStatus::INVALID_ARGUMENT;
+    }
+
+    return retVal;
+}
+
+std::pair<ConverterStatus, std::string> ConverterData::changeCommasToDots(const std::string &readVal) {
+    auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "NaN"};
+    retVal.second = readVal;
+
+    for(char & i : retVal.second) {
+        if(i == ',')
+            i = '.';
     }
 
     return retVal;
