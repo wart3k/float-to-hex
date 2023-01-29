@@ -8,7 +8,7 @@ Converts float numbers to hex numbers and vice versa.
 * [Output File](#output-file)
 * [Used third party tools](#used-third-party-tools)
 * [Known Issues](#known-issues) 
-* [Fixed Issues From Last Version](#Fixed Issues From Last Version)
+* [Fixed Issues From Last Version](#fixed-issues-from-last-version)
 * [Future Features](#future-features)
 
 ## How to use
