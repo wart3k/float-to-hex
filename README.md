@@ -1,10 +1,19 @@
 # float-to-hex
-Converts float numbers to hex numbers.
+Converts float numbers to hex numbers and vice versa.
+
+## Table of content
+* [How to use](#how-to-use)
+* [Converting float decimal values to hex values](#converting-float-decimal-values-to-hex-values)
+* [Converting float hex values to decimal values](#converting-float-hex-values-to-decimal-values)
+* [Output File](#output-file)
+* [Used third party tools](#used-third-party-tools)
+* [Known Issues](#known-issues) 
+* [Future Features](#future-features)
 
 ## How to use
 The values to convert and the converted ones are in the folder converter_files.
 The converter first checks the float_dec.txt and then the float_hex.txt file. The conversion is then located in 
-the converted.txt file
+the converted.txt file.
 
 ### Converting float decimal values to hex values
 To convert decimal float values to their hex equivalent, the decimal numbers should be written under each other 
@@ -50,13 +59,17 @@ Converted hex values into float values
 ...
 ```
 
+## Used third party tools
+The library used the following third party tools
+- For unit tests: [Catch2](https://github.com/catchorg/Catch2)
+
 ## Known Issues
 - example values that can't be converted with convertHexToFloat
   - Non-numeric strings like "this"
   - values with more than one 0x like "0xbf 0x80 0x00 0x00" or "0xbf0x000x000x00""
   - can´t handle float values like "-1.5"
   - values without 0x at start like "bf000000000"
-  - wrong return value for OUT_OF_RANGE values (returs value instead of "NaN)
+  - wrong return value for OUT_OF_RANGE values (returns value instead of "NaN")
 - example values that can't be converted with convertFloatToHex
   - strings with , like "-1,5"
   - strings with . and , like "-1.0.000.0.00,1213"
@@ -67,8 +80,9 @@ Converted hex values into float values
 
 ## Future Features
 
-- improvement of output in converted.txt
 - input correction for different hex representations (0x12345678, 12345678, 0x12 0x34 0x56 0x78, ...)
+- improvement of output in converted.txt
+- doxygen doc
 - Release build config for less console output
 - Unit Tests for all methods
 - GUI

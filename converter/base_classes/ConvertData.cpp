@@ -53,12 +53,17 @@ std::pair<ConverterStatus, std::string> ConverterData::convertHexToFloat(const s
     char *p_end{};
 
     retVal = ConverterData::checkHexReadString(value);
+    if(retVal.first != ConverterStatus::OK) {
+        retVal.second = "NaN";
+        return retVal;
+    }
 
     convertVal.i = strtoul(retVal.second.c_str(), &p_end, 16);
 
     if(retVal.second.c_str() == p_end) {
         std::cout << "FLOAT_TO_HEX ERROR: invalid argument, error \n";
         retVal.first = ConverterStatus::INVALID_ARGUMENT;
+        retVal.second = "NaN";
         return retVal;
     }
 
@@ -68,6 +73,7 @@ std::pair<ConverterStatus, std::string> ConverterData::convertHexToFloat(const s
     if (range_error || retVal.second.size() > 10) {
         std::cout << "FLOAT_TO_HEX ERROR: out of range, error \n";
         retVal.first = ConverterStatus::OUT_OF_RANGE;
+        retVal.second = "NaN";
         return retVal;
     }
 
@@ -84,6 +90,19 @@ std::pair<ConverterStatus, std::string> ConverterData::checkHexReadString(std::s
     retVal.second = std::move(readVal);
 
     retVal = ConverterData::removeWhitespaces(retVal.second);
+    if(retVal.first != ConverterStatus::OK) {
+        return retVal;
+    }
+
+    retVal = ConverterData::checkHexStartChars(retVal.second);
+    if(retVal.first != ConverterStatus::OK) {
+        return retVal;
+    }
+
+    retVal = ConverterData::checkHexValidValues(retVal.second);
+    if(retVal.first != ConverterStatus::OK) {
+        return retVal;
+    }
 
     return retVal;
 }
@@ -98,7 +117,71 @@ std::pair<ConverterStatus, std::string> ConverterData::checkFloatReadString(std:
     return retVal;
 }
 
-std::pair<ConverterStatus, std::string> ConverterData::removeWhitespaces(const std::string& readVal) {
+std::pair<ConverterStatus, std::string> ConverterData::checkHexStartChars(const std::string &readVal) {
+    auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::OK, readVal};
+
+    if(retVal.second.starts_with("x")) {
+        retVal.second = "0" + retVal.second;
+    } else if(!retVal.second.starts_with("0x")) {
+        retVal.second = "0x" + retVal.second;
+    }
+
+    return retVal;
+}
+
+std::pair<ConverterStatus, std::string> ConverterData::checkHexValidValues(const std::string &readVal) {
+
+    auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "NaN"};
+
+    retVal.second = readVal;
+
+    //check number of chars
+    if(retVal.second.size() < 10) {
+        retVal.first = ConverterStatus::INVALID_ARGUMENT;
+        return retVal;
+    }
+
+    //Check unnecessary 0x values
+    for(size_t i = 2; i < retVal.second.size(); ++i) {
+        if(((retVal.second[i] == 'x') || (retVal.second[i] == 'X') &&
+        retVal.second[i-1] == '0')) {
+            retVal.second.erase(i-1, 2);
+        }
+    }
+
+    //Check every single char
+    for(size_t i = 2; i < retVal.second.size(); ++i) {
+        if(retVal.second[i] != '0' &&
+        retVal.second[i] != '1' &&
+        retVal.second[i] != '2' &&
+        retVal.second[i] != '3' &&
+        retVal.second[i] != '4' &&
+        retVal.second[i] != '5' &&
+        retVal.second[i] != '6' &&
+        retVal.second[i] != '7' &&
+        retVal.second[i] != '8' &&
+        retVal.second[i] != '9' &&
+        retVal.second[i] != 'A' &&
+        retVal.second[i] != 'B' &&
+        retVal.second[i] != 'C' &&
+        retVal.second[i] != 'D' &&
+        retVal.second[i] != 'E' &&
+        retVal.second[i] != 'F' &&
+        retVal.second[i] != 'a' &&
+        retVal.second[i] != 'b' &&
+        retVal.second[i] != 'c' &&
+        retVal.second[i] != 'd' &&
+        retVal.second[i] != 'e' &&
+        retVal.second[i] != 'f') {
+            retVal.first = ConverterStatus::INVALID_ARGUMENT;
+            return retVal;
+        }
+    }
+
+    return retVal;
+}
+
+std::pair<ConverterStatus, std::string> ConverterData::removeWhitespaces(const std::string &readVal) {
     auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "NaN"};
 
     retVal.second = readVal;

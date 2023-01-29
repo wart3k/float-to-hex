@@ -21,6 +21,8 @@ private:
     static std::pair<ConverterStatus, std::string> checkHexReadString(std::string readVal);
     static std::pair<ConverterStatus, std::string> checkFloatReadString(std::string readVal);
 
-    static std::pair<ConverterStatus, std::string> removeWhitespaces(const std::string&);
+    static std::pair<ConverterStatus, std::string> removeWhitespaces(const std::string &readVal);
+    static std::pair<ConverterStatus, std::string> checkHexStartChars(const std::string &readVal);
+    static std::pair<ConverterStatus, std::string> checkHexValidValues(const std::string &readVal);
 
 };

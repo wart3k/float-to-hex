@@ -148,7 +148,7 @@ TEST_CASE("convertHexToFloat with special input", "[convertHexToFloat-with-wrong
 
     converterPair.first = ConverterStatus::OK;
     converterPair.second = "-0.500000";
-    REQUIRE(testConverter.convertHexToFloat("bf000000000") == converterPair);
+    REQUIRE(testConverter.convertHexToFloat("bf000000") == converterPair);
 
     converterPair.first = ConverterStatus::OUT_OF_RANGE;
     converterPair.second = "NaN";
