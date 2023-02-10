@@ -116,6 +116,8 @@ std::pair<ConverterStatus, std::string> ConverterData::checkFloatReadString(std:
 
     retVal = ConverterData::changeCommasToDots(retVal.second);
 
+    retVal = ConverterData::determAllDotsExceptTheLastOne(retVal.second);
+
     return retVal;
 }
 
@@ -203,9 +205,40 @@ std::pair<ConverterStatus, std::string> ConverterData::changeCommasToDots(const 
     auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "NaN"};
     retVal.second = readVal;
 
-    for(char & i : retVal.second) {
+    for(char &i : retVal.second) {
         if(i == ',')
             i = '.';
+    }
+
+    return retVal;
+}
+
+std::pair<ConverterStatus, std::string> ConverterData::determAllDotsExceptTheLastOne(const std::string &readVal) {
+    auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "NaN"};
+    retVal.second = readVal;
+
+    auto numberOfDots = std::uint8_t{0};
+
+    for(char &i : retVal.second) {
+        if(i == '.')
+            ++numberOfDots;
+    }
+
+    if(numberOfDots == 0) {
+        retVal.second = retVal.second + ".0";
+    } else if(numberOfDots == 1) {
+        return retVal;
+    } else {
+
+        for(auto i = 0; i < retVal.second.size(); i++) {
+
+            if (retVal.second[i] == '.' && numberOfDots > 1) {
+                retVal.second.erase(retVal.second.begin() + i, retVal.second.begin() + i + 1);
+                --numberOfDots;
+            }
+
+        }
+
     }
 
     return retVal;

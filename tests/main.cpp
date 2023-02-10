@@ -172,8 +172,8 @@ TEST_CASE("convertFloatToHex with special input", "[convertFloatToHex-with-wrong
     converter_pair.second = "0x47f12010";
     REQUIRE(testConverter.convertFloatToHex("123.456,123") == converter_pair);
 
-    converter_pair.first = ConverterStatus::INVALID_ARGUMENT;
-    converter_pair.second = "NaN";
+    converter_pair.first = ConverterStatus::OK;
+    converter_pair.second = "0xcb189680";
     REQUIRE(testConverter.convertFloatToHex("-1.0.000.0.00,1213") == converter_pair);
 
     converter_pair.first = ConverterStatus::INVALID_ARGUMENT;
