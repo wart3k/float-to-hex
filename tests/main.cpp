@@ -34,6 +34,42 @@ TEST_CASE( "Testing convert float to hex example values", "[float-to-hex-example
 
     converter_pair.second = "0x3fc00000";
     REQUIRE(testConverter.convertFloatToHex("1.5") == converter_pair);
+
+    converter_pair.second = "0x57f12316";
+    REQUIRE(testConverter.convertFloatToHex("5.30266E+14") == converter_pair);
+
+    converter_pair.second = "0x57f12316";
+    REQUIRE(testConverter.convertFloatToHex("5.30266e+14") == converter_pair);
+
+    converter_pair.second = "0x296ecf82";
+    REQUIRE(testConverter.convertFloatToHex("5.30266E-14") == converter_pair);
+
+    converter_pair.second = "0x296ecf82";
+    REQUIRE(testConverter.convertFloatToHex("5.30266e-14") == converter_pair);
+
+    converter_pair.second = "0x57f12316";
+    REQUIRE(testConverter.convertFloatToHex("+5.30266E+14") == converter_pair);
+
+    converter_pair.second = "0x57f12316";
+    REQUIRE(testConverter.convertFloatToHex("+5.30266e+14") == converter_pair);
+
+    converter_pair.second = "0x296ecf82";
+    REQUIRE(testConverter.convertFloatToHex("+5.30266E-14") == converter_pair);
+
+    converter_pair.second = "0x296ecf82";
+    REQUIRE(testConverter.convertFloatToHex("+5.30266e-14") == converter_pair);
+
+    converter_pair.second = "0xd7f12316";
+    REQUIRE(testConverter.convertFloatToHex("-5.30266E+14") == converter_pair);
+
+    converter_pair.second = "0xd7f12316";
+    REQUIRE(testConverter.convertFloatToHex("-5.30266e+14") == converter_pair);
+
+    converter_pair.second = "0xa96ecf82";
+    REQUIRE(testConverter.convertFloatToHex("-5.30266E-14") == converter_pair);
+
+    converter_pair.second = "0xa96ecf82";
+    REQUIRE(testConverter.convertFloatToHex("-5.30266e-14") == converter_pair);
 }
 
 TEST_CASE( "Testing convert float to hex with whitespaces in float values", "[float-to-hex-whitespaces]" ) {
@@ -205,8 +241,4 @@ TEST_CASE("convertFloatToHex with special input", "[convertFloatToHex-with-wrong
     converter_pair.first = ConverterStatus::OUT_OF_RANGE;
     converter_pair.second = "NaN";
     REQUIRE(testConverter.convertFloatToHex("-9999999999999999999999999999999999999999999999999999999.9") == converter_pair);
-
-    converter_pair.first = ConverterStatus::OK;
-    converter_pair.second = "0xd7f12316";
-    REQUIRE(testConverter.convertFloatToHex("-5.30266e+14") == converter_pair);
 }
