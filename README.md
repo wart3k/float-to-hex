@@ -65,24 +65,25 @@ The library used the following third party tools
 - For unit tests: [Catch2](https://github.com/catchorg/Catch2)
 
 ## Known Issues
-- example values that can't be converted with convertHexToFloat
-  - currently no issues known
-- example values that can't be converted with convertFloatToHex
+- convertFloatToHex
+  - inf and -inf values are not supported the current output is INVALID_ARGUMENT
+- convertHexToFloat
+  - 
+
+## Fixed Issues From Last Version
+- convertHexToFloat
+  - Non-numeric strings like "this" are Not a Number(nan) Values
+  - Values with more than a 0x are filtered. This turns values like "0xbf 0x80 0x00 0x00" or "0xbf0x000x000x00" 
+into 0xbf800000
+  - float values like "-1.5" are nan
+  - Values without a 0x at the beginning such as "bf000000000" are supplemented with a 0x at the beginning 
+  - returns nan for OUT_OF_RANGE
+- convertFloatToHex
+  - strings with , like "-1,5" are transformed to "-1.5"
   - strings with . and , like "-1.0.000.0.00,1213"
   - strings with no value before . or , like ".5" or "-,5"
   - Non-numeric values like "this"
   - correct return value if converter_pair.first is OUT_OF_RANGE or INVALID_ARGUMENT
-
-## Fixed Issues From Last Version
-- convertHexToFloat
-  - Non-numeric strings like "this" are Not a Number(NaN) Values
-  - Values with more than a 0x are filtered. This turns values like "0xbf 0x80 0x00 0x00" or "0xbf0x000x000x00" 
-into 0xbf800000
-  - float values like "-1.5" are NaN
-  - Values without a 0x at the beginning such as "bf000000000" are supplemented with a 0x at the beginning 
-  - returns Nan for OUT_OF_RANGE
-- convertFloatToHex
-  - strings with , like "-1,5" are transformed to "-1.5"
 
 ## Future Features
 

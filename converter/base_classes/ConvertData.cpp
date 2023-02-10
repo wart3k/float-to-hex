@@ -16,7 +16,7 @@ ConverterData::ConverterData() = default;
 ConverterData::~ConverterData() = default;
 
 std::pair<ConverterStatus, std::string> ConverterData::convertFloatToHex(const std::string &value) {
-    auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "NaN"};
+    auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "nan"};
 
     retVal = ConverterData::checkFloatReadString(value);
 
@@ -38,10 +38,10 @@ std::pair<ConverterStatus, std::string> ConverterData::convertFloatToHex(const s
 
         } catch (std::invalid_argument const &e) {
             retVal.first = ConverterStatus::INVALID_ARGUMENT;
-            retVal.second = "NaN";
+            retVal.second = "nan";
         } catch (std::out_of_range const &e) {
             retVal.first = ConverterStatus::OUT_OF_RANGE;
-            retVal.second = "NaN";
+            retVal.second = "nan";
         }
     }
 
@@ -49,7 +49,7 @@ std::pair<ConverterStatus, std::string> ConverterData::convertFloatToHex(const s
 }
 
 std::pair<ConverterStatus, std::string> ConverterData::convertHexToFloat(const std::string &value) {
-    auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "NaN"};
+    auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "nan"};
 
     auto convertVal = floatConv {.i = UINT32_MAX};
     auto stringStr = std::stringstream();
@@ -57,7 +57,7 @@ std::pair<ConverterStatus, std::string> ConverterData::convertHexToFloat(const s
 
     retVal = ConverterData::checkHexReadString(value);
     if(retVal.first != ConverterStatus::OK) {
-        retVal.second = "NaN";
+        retVal.second = "nan";
         return retVal;
     }
 
@@ -66,7 +66,7 @@ std::pair<ConverterStatus, std::string> ConverterData::convertHexToFloat(const s
     if(retVal.second.c_str() == p_end) {
         std::cout << "FLOAT_TO_HEX ERROR: invalid argument, error \n";
         retVal.first = ConverterStatus::INVALID_ARGUMENT;
-        retVal.second = "NaN";
+        retVal.second = "nan";
         return retVal;
     }
 
@@ -76,18 +76,26 @@ std::pair<ConverterStatus, std::string> ConverterData::convertHexToFloat(const s
     if (range_error || retVal.second.size() > 10) {
         std::cout << "FLOAT_TO_HEX ERROR: out of range, error \n";
         retVal.first = ConverterStatus::OUT_OF_RANGE;
-        retVal.second = "NaN";
+        retVal.second = "nan";
         return retVal;
     }
 
     retVal.second = std::to_string(convertVal.f);
+
+    if(retVal.second == "nan") {
+        retVal.first = ConverterStatus::OUT_OF_RANGE;
+        retVal.second = "inf";
+    } else if(retVal.second == "-nan") {
+        retVal.first = ConverterStatus::OUT_OF_RANGE;
+        retVal.second = "-inf";
+    }
 
     return retVal;
 }
 
 std::pair<ConverterStatus, std::string> ConverterData::checkHexReadString(std::string readVal) {
 
-    auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "NaN"};
+    auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "nan"};
 
     retVal.first = ConverterStatus::INVALID_ARGUMENT;
     retVal.second = std::move(readVal);
@@ -111,7 +119,7 @@ std::pair<ConverterStatus, std::string> ConverterData::checkHexReadString(std::s
 }
 
 std::pair<ConverterStatus, std::string> ConverterData::checkFloatReadString(std::string readVal) {
-    auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "NaN"};
+    auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "nan"};
 
     retVal.second = std::move(readVal);
 
@@ -146,7 +154,7 @@ std::pair<ConverterStatus, std::string> ConverterData::checkHexStartChars(const 
 
 std::pair<ConverterStatus, std::string> ConverterData::checkHexValidValues(const std::string &readVal) {
 
-    auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "NaN"};
+    auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "nan"};
 
     retVal.second = readVal;
 
@@ -197,7 +205,7 @@ std::pair<ConverterStatus, std::string> ConverterData::checkHexValidValues(const
 }
 
 std::pair<ConverterStatus, std::string> ConverterData::removeWhitespaces(const std::string &readVal) {
-    auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "NaN"};
+    auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "nan"};
     retVal.second = readVal;
 
     try {
@@ -213,7 +221,7 @@ std::pair<ConverterStatus, std::string> ConverterData::removeWhitespaces(const s
 }
 
 std::pair<ConverterStatus, std::string> ConverterData::changeCommasToDots(const std::string &readVal) {
-    auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "NaN"};
+    auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "nan"};
     retVal.second = readVal;
 
     for(char &i : retVal.second) {
@@ -225,7 +233,7 @@ std::pair<ConverterStatus, std::string> ConverterData::changeCommasToDots(const 
 }
 
 std::pair<ConverterStatus, std::string> ConverterData::determAllDotsExceptTheLastOne(const std::string &readVal) {
-    auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "NaN"};
+    auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "nan"};
     retVal.second = readVal;
 
     auto numberOfDots = std::uint8_t{0};
@@ -256,7 +264,7 @@ std::pair<ConverterStatus, std::string> ConverterData::determAllDotsExceptTheLas
 }
 
 std::pair<ConverterStatus, std::string> ConverterData::addZeroIfFloatStartsWithDot(const std::string &readVal) {
-    auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "NaN"};
+    auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "nan"};
     retVal.second = readVal;
 
     if (retVal.second[0] == '.'){
@@ -269,13 +277,13 @@ std::pair<ConverterStatus, std::string> ConverterData::addZeroIfFloatStartsWithD
 }
 
 std::pair<ConverterStatus, std::string> ConverterData::checkValidValues(const std::string &readVal) {
-    auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "NaN"};
+    auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "nan"};
     retVal.second = readVal;
 
     for(auto i : retVal.second) {
         if(i != '0' && i != '1' && i != '2' && i != '3' && i != '4' && i != '5' && i != '6' && i != '7' && i != '8' && i != '9' && i != '.' && i != '-' && i != '+' && i != 'e' && i != 'E'){
             retVal.first = ConverterStatus::INVALID_ARGUMENT;
-            retVal.second = "NaN";
+            retVal.second = "nan";
             return retVal;
         }
     }
@@ -284,12 +292,12 @@ std::pair<ConverterStatus, std::string> ConverterData::checkValidValues(const st
 }
 
 std::pair<ConverterStatus, std::string> ConverterData::checkNumberOfDigits(const std::string &readVal) {
-    auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "NaN"};
+    auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "nan"};
     retVal.second = readVal;
 
     if(retVal.second.size() > 30) {
         retVal.first = ConverterStatus::OUT_OF_RANGE;
-        retVal.second = "NaN";
+        retVal.second = "nan";
     }
 
     return retVal;

@@ -133,6 +133,14 @@ TEST_CASE( "Testing convert normal hex to float values", "[hex-to-float-example-
 
     converterPair.second = "-123456.125000";
     REQUIRE(testConverter.convertHexToFloat("0xc7f12010") == converterPair);
+
+    converterPair.first = ConverterStatus::OUT_OF_RANGE;
+    converterPair.second = "inf";
+    REQUIRE(testConverter.convertHexToFloat("0x7ff00000") == converterPair);
+
+    converterPair.first = ConverterStatus::OUT_OF_RANGE;
+    converterPair.second = "-inf";
+    REQUIRE(testConverter.convertHexToFloat("0xfff00000") == converterPair);
 }
 
 TEST_CASE( "Testing convert hex to float values with whitespaces in hex values", "[float-to-hex-whitespaces]" ) {
@@ -169,11 +177,11 @@ TEST_CASE("convertHexToFloat with special input", "[convertHexToFloat-with-wrong
     auto converterPair = std::pair<ConverterStatus, std::string>{};
 
     converterPair.first = ConverterStatus::INVALID_ARGUMENT;
-    converterPair.second = "NaN";
+    converterPair.second = "nan";
     REQUIRE(testConverter.convertHexToFloat("asd") == converterPair);
 
     converterPair.first = ConverterStatus::INVALID_ARGUMENT;
-    converterPair.second = "NaN";
+    converterPair.second = "nan";
     REQUIRE(testConverter.convertHexToFloat("sample string with whitespaces") == converterPair);
 
     converterPair.first = ConverterStatus::OK;
@@ -185,7 +193,7 @@ TEST_CASE("convertHexToFloat with special input", "[convertHexToFloat-with-wrong
     REQUIRE(testConverter.convertHexToFloat("0xbf0x000x000x00") == converterPair);
 
     converterPair.first = ConverterStatus::INVALID_ARGUMENT;
-    converterPair.second = "NaN";
+    converterPair.second = "nan";
     REQUIRE(testConverter.convertHexToFloat("-1.5") == converterPair);
 
     converterPair.first = ConverterStatus::OK;
@@ -193,7 +201,7 @@ TEST_CASE("convertHexToFloat with special input", "[convertHexToFloat-with-wrong
     REQUIRE(testConverter.convertHexToFloat("bf000000") == converterPair);
 
     converterPair.first = ConverterStatus::OUT_OF_RANGE;
-    converterPair.second = "NaN";
+    converterPair.second = "nan";
     REQUIRE(testConverter.convertHexToFloat("0xFFFFFFFFFFFFFFFFFFF") == converterPair);
 }
 
@@ -227,18 +235,18 @@ TEST_CASE("convertFloatToHex with special input", "[convertFloatToHex-with-wrong
     REQUIRE(testConverter.convertFloatToHex(" .5 ") == converter_pair);
 
     converter_pair.first = ConverterStatus::INVALID_ARGUMENT;
-    converter_pair.second = "NaN";
+    converter_pair.second = "nan";
     REQUIRE(testConverter.convertFloatToHex("asd") == converter_pair);
 
     converter_pair.first = ConverterStatus::INVALID_ARGUMENT;
-    converter_pair.second = "NaN";
+    converter_pair.second = "nan";
     REQUIRE(testConverter.convertFloatToHex("sample input string ") == converter_pair);
 
     converter_pair.first = ConverterStatus::OUT_OF_RANGE;
-    converter_pair.second = "NaN";
+    converter_pair.second = "nan";
     REQUIRE(testConverter.convertFloatToHex("9999999999999999999999999999999999999999999.9") == converter_pair);
 
     converter_pair.first = ConverterStatus::OUT_OF_RANGE;
-    converter_pair.second = "NaN";
+    converter_pair.second = "nan";
     REQUIRE(testConverter.convertFloatToHex("-9999999999999999999999999999999999999999999999999999999.9") == converter_pair);
 }
