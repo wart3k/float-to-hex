@@ -118,6 +118,8 @@ std::pair<ConverterStatus, std::string> ConverterData::checkFloatReadString(std:
 
     retVal = ConverterData::determAllDotsExceptTheLastOne(retVal.second);
 
+    retVal = ConverterData::addZeroIfFloatStartsWithDot(retVal.second);
+
     return retVal;
 }
 
@@ -239,6 +241,19 @@ std::pair<ConverterStatus, std::string> ConverterData::determAllDotsExceptTheLas
 
         }
 
+    }
+
+    return retVal;
+}
+
+std::pair<ConverterStatus, std::string> ConverterData::addZeroIfFloatStartsWithDot(const std::string &readVal) {
+    auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "NaN"};
+    retVal.second = readVal;
+
+    if (retVal.second[0] == '.'){
+        retVal.second = retVal.second.insert(0, "0");
+    } else if (retVal.second[0] == '-' && retVal.second[1] == '.'){
+        retVal.second = retVal.second.insert(1, "0");
     }
 
     return retVal;

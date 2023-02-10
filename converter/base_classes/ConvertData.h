@@ -29,4 +29,6 @@ private:
     static std::pair<ConverterStatus, std::string> changeCommasToDots(const std::string &readVal);
 
     static std::pair<ConverterStatus, std::string> determAllDotsExceptTheLastOne(const std::string &readVal);
+
+    static std::pair<ConverterStatus, std::string> addZeroIfFloatStartsWithDot(const std::string &readVal);
 };
