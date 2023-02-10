@@ -205,4 +205,8 @@ TEST_CASE("convertFloatToHex with special input", "[convertFloatToHex-with-wrong
     converter_pair.first = ConverterStatus::OUT_OF_RANGE;
     converter_pair.second = "NaN";
     REQUIRE(testConverter.convertFloatToHex("-9999999999999999999999999999999999999999999999999999999.9") == converter_pair);
+
+    converter_pair.first = ConverterStatus::OK;
+    converter_pair.second = "0xd7f12316";
+    REQUIRE(testConverter.convertFloatToHex("-5.30266e+14") == converter_pair);
 }

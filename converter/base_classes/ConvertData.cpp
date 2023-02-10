@@ -273,7 +273,7 @@ std::pair<ConverterStatus, std::string> ConverterData::checkValidValues(const st
     retVal.second = readVal;
 
     for(auto i : retVal.second) {
-        if(i != '0' && i != '1' && i != '2' && i != '3' && i != '4' && i != '5' && i != '6' && i != '7' && i != '8' && i != '9' && i != '.' && i != '-'){
+        if(i != '0' && i != '1' && i != '2' && i != '3' && i != '4' && i != '5' && i != '6' && i != '7' && i != '8' && i != '9' && i != '.' && i != '-' && i != '+' && i != 'e' && i != 'E'){
             retVal.first = ConverterStatus::INVALID_ARGUMENT;
             retVal.second = "NaN";
             return retVal;
