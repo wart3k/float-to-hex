@@ -65,7 +65,7 @@ TEST_CASE( "Testing convert float to hex with whitespaces in float values", "[fl
     REQUIRE(testConverter.convertFloatToHex("          1       .            5             ") == converter_pair);
 }
 
-TEST_CASE( "Testing convert hex to float with example values", "[hex-to-float-example-val]" ) {
+TEST_CASE( "Testing convert normal hex to float values", "[hex-to-float-example-val]" ) {
     ConverterData testConverter;
 
     auto converterPair = std::pair<ConverterStatus, std::string>{};
@@ -91,6 +91,12 @@ TEST_CASE( "Testing convert hex to float with example values", "[hex-to-float-ex
 
     converterPair.second = "1.500000";
     REQUIRE(testConverter.convertHexToFloat("0x3fc00000") == converterPair);
+
+    converterPair.second = "12345678848.000000";
+    REQUIRE(testConverter.convertHexToFloat("0x5037f707") == converterPair);
+
+    converterPair.second = "-123456.125000";
+    REQUIRE(testConverter.convertHexToFloat("0xc7f12010") == converterPair);
 }
 
 TEST_CASE( "Testing convert hex to float values with whitespaces in hex values", "[float-to-hex-whitespaces]" ) {
@@ -194,7 +200,7 @@ TEST_CASE("convertFloatToHex with special input", "[convertFloatToHex-with-wrong
 
     converter_pair.first = ConverterStatus::OUT_OF_RANGE;
     converter_pair.second = "NaN";
-    REQUIRE(testConverter.convertFloatToHex("9999999999999999999999999999999999999999999999999999999.9") == converter_pair);
+    REQUIRE(testConverter.convertFloatToHex("9999999999999999999999999999999999999999999.9") == converter_pair);
 
     converter_pair.first = ConverterStatus::OUT_OF_RANGE;
     converter_pair.second = "NaN";

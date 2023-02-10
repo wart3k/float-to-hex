@@ -20,27 +20,30 @@ std::pair<ConverterStatus, std::string> ConverterData::convertFloatToHex(const s
 
     retVal = ConverterData::checkFloatReadString(value);
 
-    try {
-        auto convertVal = floatConv {.i = UINT32_MAX};
-        auto stringStr = std::stringstream();
+    if (retVal.first == ConverterStatus::OK) {
+        try {
+            auto convertVal = floatConv{.i = UINT32_MAX};
+            auto stringStr = std::stringstream();
 
-        convertVal.f = std::stof(retVal.second);
+            convertVal.f = std::stof(retVal.second);
 
-        if(convertVal.i == 0) {
-            stringStr << "0x00000000";
-        } else {
-            stringStr << "0x" << std::hex << convertVal.i;
+            if (convertVal.i == 0) {
+                stringStr << "0x00000000";
+            } else {
+                stringStr << "0x" << std::hex << convertVal.i;
+            }
+
+            retVal.first = ConverterStatus::OK;
+            retVal.second = stringStr.str();
+
+        } catch (std::invalid_argument const &e) {
+            retVal.first = ConverterStatus::INVALID_ARGUMENT;
+            retVal.second = "NaN";
+        } catch (std::out_of_range const &e) {
+            retVal.first = ConverterStatus::OUT_OF_RANGE;
+            retVal.second = "NaN";
         }
-
-        retVal.first = ConverterStatus::OK;
-        retVal.second = stringStr.str();
-
-    } catch (std::invalid_argument const &e) {
-        retVal.first = ConverterStatus::INVALID_ARGUMENT;
-    } catch (std::out_of_range const &e) {
-        retVal.first = ConverterStatus::OUT_OF_RANGE;
     }
-
 
     return retVal;
 }
@@ -119,6 +122,12 @@ std::pair<ConverterStatus, std::string> ConverterData::checkFloatReadString(std:
     retVal = ConverterData::determAllDotsExceptTheLastOne(retVal.second);
 
     retVal = ConverterData::addZeroIfFloatStartsWithDot(retVal.second);
+
+    retVal = ConverterData::checkValidValues(retVal.second);
+    if(retVal.first != ConverterStatus::OK)
+        return retVal;
+
+    retVal = checkNumberOfDigits(retVal.second);
 
     return retVal;
 }
@@ -254,6 +263,33 @@ std::pair<ConverterStatus, std::string> ConverterData::addZeroIfFloatStartsWithD
         retVal.second = retVal.second.insert(0, "0");
     } else if (retVal.second[0] == '-' && retVal.second[1] == '.'){
         retVal.second = retVal.second.insert(1, "0");
+    }
+
+    return retVal;
+}
+
+std::pair<ConverterStatus, std::string> ConverterData::checkValidValues(const std::string &readVal) {
+    auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "NaN"};
+    retVal.second = readVal;
+
+    for(auto i : retVal.second) {
+        if(i != '0' && i != '1' && i != '2' && i != '3' && i != '4' && i != '5' && i != '6' && i != '7' && i != '8' && i != '9' && i != '.' && i != '-'){
+            retVal.first = ConverterStatus::INVALID_ARGUMENT;
+            retVal.second = "NaN";
+            return retVal;
+        }
+    }
+
+    return retVal;
+}
+
+std::pair<ConverterStatus, std::string> ConverterData::checkNumberOfDigits(const std::string &readVal) {
+    auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "NaN"};
+    retVal.second = readVal;
+
+    if(retVal.second.size() > 30) {
+        retVal.first = ConverterStatus::OUT_OF_RANGE;
+        retVal.second = "NaN";
     }
 
     return retVal;
