@@ -66,9 +66,9 @@ The library used the following third party tools
 
 ## Known Issues
 - convertFloatToHex
-  - inf and -inf values are not supported the current output is INVALID_ARGUMENT
+  - values like 1.1e123e123, 1.1e+123e+123, 1.1E-123e123, 1.1e+123E-123 are untested
 - convertHexToFloat
-  - 
+  - no issues known
 
 ## Fixed Issues From Last Version
 - convertHexToFloat
