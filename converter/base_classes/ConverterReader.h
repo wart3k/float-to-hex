@@ -21,7 +21,7 @@ enum class ConverterReadStatus {
 
 
 /**
- * @brief Contains methods to read from a text file
+ * @brief Contains methods to read from a given text file
  */
 class ConverterReader {
 public:
