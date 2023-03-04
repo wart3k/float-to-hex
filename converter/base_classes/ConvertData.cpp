@@ -11,10 +11,6 @@ using floatConv = union {
     float f;
 };
 
-ConverterData::ConverterData() = default;
-
-ConverterData::~ConverterData() = default;
-
 std::pair<ConverterStatus, std::string> ConverterData::convertFloatToHex(const std::string &value) {
     auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "nan"};
 
@@ -22,7 +18,7 @@ std::pair<ConverterStatus, std::string> ConverterData::convertFloatToHex(const s
 
     if (retVal.first == ConverterStatus::OK) {
         try {
-            auto convertVal = floatConv{.i = UINT32_MAX};
+            auto convertVal = floatConv{ .i = UINT32_MAX };
             auto stringStr = std::stringstream();
 
             convertVal.f = std::stof(retVal.second);
@@ -33,15 +29,12 @@ std::pair<ConverterStatus, std::string> ConverterData::convertFloatToHex(const s
                 stringStr << "0x" << std::hex << convertVal.i;
             }
 
-            retVal.first = ConverterStatus::OK;
             retVal.second = stringStr.str();
 
         } catch (std::invalid_argument const &e) {
             retVal.first = ConverterStatus::INVALID_ARGUMENT;
-            retVal.second = "nan";
         } catch (std::out_of_range const &e) {
             retVal.first = ConverterStatus::OUT_OF_RANGE;
-            retVal.second = "nan";
         }
     }
 
@@ -51,7 +44,7 @@ std::pair<ConverterStatus, std::string> ConverterData::convertFloatToHex(const s
 std::pair<ConverterStatus, std::string> ConverterData::convertHexToFloat(const std::string &value) {
     auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "nan"};
 
-    auto convertVal = floatConv {.i = UINT32_MAX};
+    auto convertVal = floatConv { .i = UINT32_MAX };
     auto stringStr = std::stringstream();
     char *p_end{};
 
@@ -95,9 +88,8 @@ std::pair<ConverterStatus, std::string> ConverterData::convertHexToFloat(const s
 
 std::pair<ConverterStatus, std::string> ConverterData::checkHexReadString(std::string readVal) {
 
-    auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "nan"};
+    auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::INVALID_ARGUMENT, "nan"};
 
-    retVal.first = ConverterStatus::INVALID_ARGUMENT;
     retVal.second = std::move(readVal);
 
     retVal = ConverterData::removeWhitespaces(retVal.second);
@@ -127,11 +119,11 @@ std::pair<ConverterStatus, std::string> ConverterData::checkFloatReadString(std:
 
     retVal = ConverterData::changeCommasToDots(retVal.second);
 
-    retVal = ConverterData::determAllDotsExceptTheLastOne(retVal.second);
+    retVal = ConverterData::determinateAllDotsExceptTheLastOne(retVal.second);
 
     retVal = ConverterData::addZeroIfFloatStartsWithDot(retVal.second);
 
-    retVal = ConverterData::checkValidValues(retVal.second);
+    retVal = ConverterData::checkDecimalValidValues(retVal.second);
     if(retVal.first != ConverterStatus::OK)
         return retVal;
 
@@ -212,7 +204,6 @@ std::pair<ConverterStatus, std::string> ConverterData::removeWhitespaces(const s
         retVal.second.erase(std::remove(retVal.second.begin(), retVal.second.end(), ' '),
                             retVal.second.end());
 
-        retVal.first = ConverterStatus::OK;
     } catch (std::invalid_argument const &e) {
         retVal.first = ConverterStatus::INVALID_ARGUMENT;
     }
@@ -232,7 +223,7 @@ std::pair<ConverterStatus, std::string> ConverterData::changeCommasToDots(const 
     return retVal;
 }
 
-std::pair<ConverterStatus, std::string> ConverterData::determAllDotsExceptTheLastOne(const std::string &readVal) {
+std::pair<ConverterStatus, std::string> ConverterData::determinateAllDotsExceptTheLastOne(const std::string &readVal) {
     auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "nan"};
     retVal.second = readVal;
 
@@ -276,12 +267,13 @@ std::pair<ConverterStatus, std::string> ConverterData::addZeroIfFloatStartsWithD
     return retVal;
 }
 
-std::pair<ConverterStatus, std::string> ConverterData::checkValidValues(const std::string &readVal) {
+std::pair<ConverterStatus, std::string> ConverterData::checkDecimalValidValues(const std::string &readVal) {
     auto retVal = std::pair<ConverterStatus, std::string>{ConverterStatus::OK, "nan"};
     retVal.second = readVal;
 
     for(auto i : retVal.second) {
-        if(i != '0' && i != '1' && i != '2' && i != '3' && i != '4' && i != '5' && i != '6' && i != '7' && i != '8' && i != '9' && i != '.' && i != '-' && i != '+' && i != 'e' && i != 'E'){
+        if(i != '0' && i != '1' && i != '2' && i != '3' && i != '4' && i != '5' && i != '6' && i != '7' && i != '8' &&
+        i != '9' && i != '.' && i != '-' && i != '+' && i != 'e' && i != 'E'){
             retVal.first = ConverterStatus::INVALID_ARGUMENT;
             retVal.second = "nan";
             return retVal;

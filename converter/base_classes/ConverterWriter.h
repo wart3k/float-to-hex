@@ -8,6 +8,7 @@
 #include <string>
 
 /**
+ * @enum ConverterWriteStatus
  * @brief return values from methods
  */
 enum class ConverterWriteStatus {
@@ -16,6 +17,7 @@ enum class ConverterWriteStatus {
 };
 
 /**
+ * @class ConverterWriter
  * @brief Contains methods to write into a given text file
  */
 class ConverterWriter {

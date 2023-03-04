@@ -10,6 +10,7 @@
 #include <tuple>
 
 /**
+ * @enum ConverterReadStatus
  * @brief return values from methods
  */
 enum class ConverterReadStatus {
@@ -19,8 +20,8 @@ enum class ConverterReadStatus {
     LENGTH_ERROR                        /**< returned if the file is to large */
 };
 
-
 /**
+ * @class ConverterReader
  * @brief Contains methods to read from a given text file
  */
 class ConverterReader {
