@@ -87,7 +87,6 @@ into 0xbf800000
 
 ## Future Features
 
-- input correction for different hex representations (0x12345678, 12345678, 0x12 0x34 0x56 0x78, ...)
 - improvement of output in converted.txt
 - doxygen doc
 - Release build config

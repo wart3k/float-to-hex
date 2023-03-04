@@ -13,6 +13,7 @@ int main() {
 
     ConverterService ConverterController(pathToFloatValues, pathToHexValues,
                                          pathToConvertedValues);
+
     ConverterController.startConverting();
 
     return EXIT_SUCCESS;
