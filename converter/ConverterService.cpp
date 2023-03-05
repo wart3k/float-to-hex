@@ -2,8 +2,6 @@
 
 #include <iostream>
 
-ConverterService::~ConverterService() = default;
-
 void ConverterService::startConverting() {
 
     std::cout << "Use float decimal values from: " << m_float_values_path << "\n";
