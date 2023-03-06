@@ -115,3 +115,6 @@ fabric.properties
 *.exe
 *.out
 *.app
+
+# Doxygen generated files
+docs/html

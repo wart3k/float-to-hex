@@ -19,7 +19,9 @@ set(EXECUTABLE_NAME float-to-hex)
 set(DATA_RW_LIBRARY_NAME reader_libraries)
 set(CONVERTER_LIBRARY_NAME converter_libraries)
 
+set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 include(FetchContent)
+include(Docs)
 
 FetchContent_Declare(
         Catch2
