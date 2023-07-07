@@ -5,11 +5,7 @@
 #include <cstdlib>
 #include <iomanip>
 #include <utility>
-
-using floatConv = union {
-    std::uint32_t i;
-    float f;
-};
+#include "ConverterUtils.h"
 
 ConverterData::ConverterData() = default;
 

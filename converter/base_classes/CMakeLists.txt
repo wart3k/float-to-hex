@@ -1,7 +1,9 @@
 set(DATA_RW_LIBRARY_SOURCES
         "ConverterReader.cpp"
         "ConverterWriter.cpp"
-        "ConvertData.cpp")
+        "ConvertData.cpp"
+        "FloatToHexConverter.cpp"
+)
 
 set(DATA_RW_LIBRARY_INCLUDES
         "./")

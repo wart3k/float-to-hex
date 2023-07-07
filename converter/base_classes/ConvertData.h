@@ -2,12 +2,7 @@
 
 #include <tuple>
 #include <string>
-
-enum class ConverterStatus {
-    OK = 0,
-    INVALID_ARGUMENT,
-    OUT_OF_RANGE
-};
+#include <ConverterUtils.h>
 
 class ConverterData {
 public:
