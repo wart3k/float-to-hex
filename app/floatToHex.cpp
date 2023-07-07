@@ -1,3 +1,16 @@
+/**
+ * @file   floatToHex.cpp
+ * @Author WART3K
+ * @date   July, 2023
+ * @brief  The main file for this project
+ *
+ * This is the main file. First it prints the path's and then it generates an object from the Converter Service.
+ * This Service has the possibility to read convert and write. The Order is:
+ * 1: Read value
+ * 2: Convert
+ * 3: Write value
+ */
+
 #include <iostream>
 #include <string>
 
